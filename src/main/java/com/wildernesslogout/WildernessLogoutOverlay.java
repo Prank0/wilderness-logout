@@ -106,7 +106,7 @@ final class WildernessLogoutOverlay extends Overlay
 		graphics.drawRoundRect(0, 0, WIDTH - 1, HEIGHT - 1, 8, 8);
 
 		graphics.setFont(FontManager.getRunescapeBoldFont());
-		String label = "LOG OUT  [" + config.logoutHotkey() + "]";
+		String label = "LOG OUT";
 		FontMetrics metrics = graphics.getFontMetrics();
 		int x = (WIDTH - metrics.stringWidth(label)) / 2;
 		int y = (HEIGHT - metrics.getHeight()) / 2 + metrics.getAscent();

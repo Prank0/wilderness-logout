@@ -16,17 +16,15 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.input.KeyManager;
 import net.runelite.client.input.MouseManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.runelite.client.util.HotkeyListener;
 
 @PluginDescriptor(
 	name = "Wilderness Logout",
-	description = "Adds an always-visible logout button and emergency logout hotkey",
-	tags = {"wilderness", "logout", "hotkey", "panic", "pvp"},
+	description = "Adds an always-visible logout button and optional wilderness player tone",
+	tags = {"wilderness", "logout", "panic", "pvp"},
 	enabledByDefault = false
 )
 public class WildernessLogoutPlugin extends Plugin
@@ -49,27 +47,14 @@ public class WildernessLogoutPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private KeyManager keyManager;
-
-	@Inject
 	private MouseManager mouseManager;
 
 	private final PersistentBeep persistentBeep = new PersistentBeep();
-
-	private final HotkeyListener logoutHotkeyListener = new HotkeyListener(() -> config.logoutHotkey())
-	{
-		@Override
-		public void hotkeyPressed()
-		{
-			requestLogout();
-		}
-	};
 
 	@Override
 	protected void startUp()
 	{
 		overlayManager.add(overlay);
-		keyManager.registerKeyListener(logoutHotkeyListener);
 		mouseManager.registerMouseListener(overlay.getMouseListener());
 	}
 
@@ -78,7 +63,6 @@ public class WildernessLogoutPlugin extends Plugin
 	{
 		persistentBeep.close();
 		mouseManager.unregisterMouseListener(overlay.getMouseListener());
-		keyManager.unregisterKeyListener(logoutHotkeyListener);
 		overlayManager.remove(overlay);
 	}
 
